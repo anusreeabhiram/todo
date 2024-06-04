@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task List</title>
+    {% load static %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url("{% static 'images/background.jpg' %}") no-repeat center center fixed;
+            background-size: cover;
+        }
+        .top-bar {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: right;
+        }
+        .top-bar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .top-bar a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        a.button {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        a.button:hover {
+            background-color: #555;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        li strong {
+            color: #333;
+        }
+        li span {
+            color: #5cb85c;
+        }
+        li .actions a {
+            margin-left: 10px;
+            padding: 5px 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            color: white;
+        }
+        li .actions a.complete {
+            background-color: #5cb85c;
+        }
+        li .actions a.complete:hover {
+            background-color: #4cae4c;
+        }
+        li .actions a.edit {
+            background-color: #f0ad4e;
+        }
+        li .actions a.edit:hover {
+            background-color: #ec971f;
+        }
+        li .actions a.delete {
+            background-color: #d9534f;
+        }
+        li .actions a.delete:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <a href="{% url 'task_list' %}"></a>
+        <a href="{% url 'login' %}">LogOut</a>
+    </div>
+    <div class="container">
+        <h2>Task List</h2>
+        <a class="button" href="{% url 'task_create' %}">Create Task</a>
+        <ul>
+            {% for task in tasks %}
+                <li>
+                    <div>
+                        <strong>{{ task.title }}</strong> - {{ task.description }}
+                    </div>
+                    <div class="actions">
+                        {% if not task.completed %}
+                            <a class="complete" href="{% url 'task_complete' task.id %}">Mark as completed</a>
+                        {% else %}
+                            <span>Completed</span>
+                        {% endif %}
+                        <a class="edit" href="{% url 'task_update' task.id %}">Edit</a>
+                        <a class="delete" href="{% url 'task_delete' task.id %}">Delete</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
